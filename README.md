@@ -4,7 +4,7 @@
 
 ```js
 // clone the project from the github
-git clone https://github.com/dimaportenko/react-native-mlkit-tutorial
+git clone https://github.com/saeedhassansolangi/rnmlkit
 
 // move to the project directory
 cd react-native-mlkit-tutorial
