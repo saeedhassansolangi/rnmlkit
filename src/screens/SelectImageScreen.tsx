@@ -55,7 +55,7 @@ export const SelectImageScreen = ({navigation}: SelectImageScreenProps) => {
             key="Take Image"
             onPress={() =>
               onButtonPress('capture', {
-                saveToPhotos: true,
+                saveToPhotos: false,
                 mediaType: 'photo',
                 includeBase64: false,
               })

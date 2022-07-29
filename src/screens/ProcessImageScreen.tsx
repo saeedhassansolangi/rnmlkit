@@ -2,7 +2,7 @@
  * Created by Dima Portenko on 05.07.2021
  */
 import React, {useEffect, useState} from 'react';
-import {Image, useWindowDimensions, ScrollView} from 'react-native';
+import {Image, useWindowDimensions, ScrollView, Text, Alert} from 'react-native';
 import {
   ProcessImageNavigationProps,
   ProcessImageRouteProps,
@@ -20,6 +20,8 @@ export const ProcessImageScreen = ({route}: ProcessImageScreenProps) => {
   const [aspectRatio, setAspectRation] = useState(1);
   const [response, setResposne] = useState<Response | undefined>(undefined);
   const uri = route.params.uri;
+  const [name, setName] = useState('')
+  const [nameRect, setNameRect] = useState(null)
 
   useEffect(() => {
     if (uri) {
@@ -31,7 +33,26 @@ export const ProcessImageScreen = ({route}: ProcessImageScreenProps) => {
     if (url) {
       try {
         const response = await recognizeImage(url);
-        console.log(response);
+
+        if(response.blocks.length > 0) {
+          const nameIndex = response.blocks.findIndex((block) =>{
+            return block.text.includes("Name")
+        })
+
+        if(nameIndex < 0) {
+         Alert.alert('Name not found') 
+        }
+
+        // console.log(response.blocks[nameIndex].text);
+        setName(response.blocks[nameIndex].text)
+
+        // @ts-ignore
+        setNameRect(response.blocks[nameIndex])
+        
+        
+      }
+        
+        
         if (response?.blocks?.length > 0) {
           setResposne(response);
           setAspectRation(response.height / response.width);
@@ -55,6 +76,13 @@ export const ProcessImageScreen = ({route}: ProcessImageScreenProps) => {
           scale={windowWidth / response.width}
         />
       )}
+
+      <Text>{name}</Text>
+
+     {
+      nameRect  ?  <Text>{JSON.stringify(nameRect, null, 2)}</Text> : null
+     }
     </ScrollView>
+
   );
 };

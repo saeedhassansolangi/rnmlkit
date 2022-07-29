@@ -1,25 +1,63 @@
-# React Native ML Kit Tutorial
-<div align="center">
-  <a align="center" href="https://github.com/dimaportenko?tab=followers">
-    <img src="https://img.shields.io/github/followers/dimaportenko?label=Follow%20%40dimaportenko&style=social" />
-  </a>
-  <br/>
-  <a align="center" href="https://twitter.com/dimaportenko">
-    <img src="https://img.shields.io/twitter/follow/dimaportenko?label=Follow%20%40dimaportenko&style=social" />
-  </a>
-  <br/>
-  <a align="center" href="https://www.youtube.com/channel/UCReKeeIMZywvQoaZPZKzQbQ">
-    <img src="https://img.shields.io/youtube/channel/subscribers/UCReKeeIMZywvQoaZPZKzQbQ" />
-  </a>
-  <br/>
-  <a align="center" href="https://www.youtube.com/channel/UCReKeeIMZywvQoaZPZKzQbQ">
-    <img src="https://img.shields.io/youtube/channel/views/UCReKeeIMZywvQoaZPZKzQbQ" />
-  </a>
-</div>
-<br/>
-This video series contains two main topics Native Modules usage and how to use native Google ML Kit API.
+# React Native ML Kit
 
-Playlist - https://youtube.com/playlist?list=PL97fL9DAn9QzKd4-exwa-vd1rNDov8wXZ
+## Installation
 
-## 🎬 Demo
-![Demo](design/demo.gif)
+```js
+// clone the project from the github
+git clone https://github.com/dimaportenko/react-native-mlkit-tutorial
+
+// move to the project directory
+cd react-native-mlkit-tutorial
+
+// install the project's necessary packages(dependencies and devDependepencies)
+npm install
+
+// run these two scripts in the two separate terminal side by side
+npm start
+
+npm run android
+```
+
+## Project Files
+
+### 1) `App.tsx`
+
+- this is the root file of the Project, contains only Navigations
+
+### 2) `screens/SelectImageScreen.tsx`
+
+- this is the Initial Route or Home Screen of the App which contains three buttons
+- - Named :
+- - - **_`Take Image`_** :- takes image using the **_Camera_**
+- - - **_`Select Image`_** :- select image from the device's **_Gallery_**
+- - - **_`Process Image`_** :- it just takes the image either from the Gallery or Camera and will send it to the **_ProcessImageScreen_** and this file is responsible for Extracting the text from the Image
+
+### 3) `src/screens/ProcessImageScreen.tsx`
+
+- As I mentioned above, this file is responsible for Extracting Text from the Image and render desired output on this Screen.
+
+- It Basically, invoke the **_'recognizeImage'_** function from the `src/mlkit/index.ts` file, takes its output and render it on the Screen.
+
+### 4) `src/mlkit/index.ts`
+
+- this file uses the `react-native`'s Core API named `NativeModules` and access it's Object `TextRecognitionModule` for recognizing the Text from the Image.
+
+```js
+import {NativeModules} from 'react-native';
+
+const {TextRecognitionModule} = NativeModules;
+
+/// ...other typescript code
+
+export const recognizeImage = (url: string): Promise<Response> => {
+  return TextRecognitionModule.recognizeImage(url);
+};
+```
+
+### 5) `src/components/ui/*.tsx`
+
+- these three files are responsible for creating some Reusable Components, nothing special
+
+### 6) `src/naivgation/*.tsx`
+
+- these two files are responsbile for creating the Stack Navigation .
